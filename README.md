@@ -1,5 +1,5 @@
 ## 技术栈:
-react / react-router / redux / antd <br>
+react / react-router / redux / react-redux / antd <br>
 
 ## 联系方式:
 qq:251226925  问题答案:sandy <br>
