@@ -10,6 +10,9 @@
 .box .logos{
     padding: 30px 35px;
 }
+.login input{
+    outline: none;
+}
 .login{
     position: relative;
     top: 50%;

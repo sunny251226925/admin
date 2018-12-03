@@ -1,31 +1,13 @@
 import React from 'react';
 import logo from '../../images/logo.png';
 import logoTitle from '../../images/logo-2.png';
-import api from '../../utils/api'
-import global from '../../utils/config'
-import { createStore } from 'redux';
+import api from '../../utils/api';
+import global from '../../utils/config';
 import './login.css';
+import { message } from 'antd';
+import { encrypt } from '../../utils/aes';
+import {browserHistory} from 'react-router'
 
-import {browserHistory, Link} from 'react-router'
-
-function counter(state = 0, action) {
-    switch (action.type) {
-        case 'INCREMENT':
-            return state + 1
-        case 'DECREMENT':
-            return state - 1
-        default:
-            return state
-    }
-}
-
-const store = createStore(counter);
-store.subscribe(() => console.log(store.getState()))
-store.dispatch({ type: 'INCREMENT' })
-// 1
-store.dispatch({ type: 'INCREMENT' })
-// 2
-store.dispatch({ type: 'DECREMENT' })
 class Login extends React.Component {
     constructor(props){
         super(props);
@@ -36,21 +18,53 @@ class Login extends React.Component {
             qrCode: ''
         }
         this.submit = this.submit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.userChange = this.userChange.bind(this);
+        this.passChange = this.passChange.bind(this);
+        this.codeChange = this.codeChange.bind(this);
     }
 
     submit = () => {
-        browserHistory.push('/home');
+        const params = {
+            userName: this.state.userName,
+            passWord: this.state.passWord,
+            capText: this.state.capText,
+        }
+        if(params.userName === ''){
+            message.error("请输入用户名");
+        } else if (params.passWord === ''){
+            message.error("请输入密码");
+        } else if (params.capText === ''){
+            message.error("请输入验证码");
+        } else {
+            params.passWord = encrypt(params);
+            console.log(params)
+            api.login(params).then(function (res) {
+                console.log(res)
+            })
+        }
+
+        // browserHistory.push('/home');
     }
 
-    handleChange =(event) => {
+    userChange =(event) => {
         this.setState({
             userName: event.target.value
         })
     }
 
-    componentDidMount(){
+    passChange =(event) => {
+        this.setState({
+            passWord: event.target.value
+        })
+    }
 
+    codeChange =(event) => {
+        this.setState({
+            capText: event.target.value
+        })
+    }
+
+    componentDidMount(){
         api.getQrcode().then(res => {
             this.setState({
                 qrCode: global.imgRoot + res.img
@@ -74,20 +88,26 @@ class Login extends React.Component {
                     <li className="li hover">
                         <label className="label username"></label>
                         <div className="text">
-                            <input type="text" className="input" value={this.state.userName} onChange={this.handleChange} />
+                            <input type="text" className="input" value={this.state.userName} onChange={this.userChange} />
                         </div>
                     </li>
                     <li className="li-error"></li>
                     <li className="li hover">
                         <label className="label password"></label>
                         <div className="text">
-                            <input type="password" className="input" value={this.state.passWord}/>
+                            <input type="password" className="input" value={this.state.passWord} onChange={this.passChange}/>
                         </div>
                     </li>
                     <li className="li-error"></li>
                     <li className="li li-border">
                         <div className="text" >
-                            <input type="text" className="input input2 hover" placeholder="请输入验证码" maxLength="4" value={this.state.capText} />
+                            <input type="text"
+                                   className="input input2 hover"
+                                   placeholder="请输入验证码"
+                                   maxLength="4"
+                                   value={this.state.capText}
+                                   onChange={this.codeChange}
+                            />
                             <img src={this.state.qrCode} className="qr-code" alt="验证码" title="点击重新获取" />
                         </div>
                     </li>
@@ -102,10 +122,10 @@ class Login extends React.Component {
               <p className="text-center help">
                   <span className="left">Copyright © 2018 北京迈道科技有限公司  京ICP备16026384号-1</span>
                   <span className="right">
-                      <a href="http://www.imydao.com" target="_blank">关于迈道</a>
-                      <a href="./dist/view/help.html?id=policy" target="_blank">免责声明</a>
-                      <a href="./dist/view/help.html?id=privacy" target="_blank">隐私政策</a>
-                      <a href="./dist/view/help.html?id=security" target="_blank">使用许可及服务协议</a>
+                      <a href="http://www.imydao.com">关于迈道</a>
+                      <a href="./dist/view/help.html?id=policy">免责声明</a>
+                      <a href="./dist/view/help.html?id=privacy">隐私政策</a>
+                      <a href="./dist/view/help.html?id=security">使用许可及服务协议</a>
                   </span>
               </p>
           </div>

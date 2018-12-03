@@ -7,7 +7,7 @@ const { Header, Content, Sider } = Layout;
 
 message.config({
     top: 100,
-    duration: 3
+    duration: 2
 });
 
 class Home extends Component {

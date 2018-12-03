@@ -12,7 +12,8 @@ axios.interceptors.request.use( config => {
     return config;
 })
 
-axios.interceptors.response.use(response => {
+axios.interceptors.response.use( response => {
+    console.log(response)
     if (response.status >= 200 && response.status <= 300) {
         if(response.data.code >= 200 && response.data.code <= 200){
             return response.data;
@@ -20,15 +21,17 @@ axios.interceptors.response.use(response => {
             message.error(response.data.data, function () {
                 browserHistory.push('/');
             });
-            return null;
         } else {
             message.error(response.data.data);
-            return null;
+            return response.data;
         }
     } else {
-        // 报错
-        message.error(response.data.message);
+        message.error(response.message);
     }
+}, error => {
+    // 对响应错误做点什么
+    message.error(error.message);
+    return Promise.reject(error);
 })
 
 export function get(url, params) {
@@ -45,9 +48,8 @@ export function get(url, params) {
 
 export function post(url, data) {
     return new Promise((resolve, reject) => {
-        axios.post(url, {
-            data: data
-        }).then(res => {
+        axios.post(url, data).then(res => {
+            console.log(res)
             resolve(res.data)
         }).catch(err => {
             reject(err)
