@@ -6,6 +6,7 @@ import global from '../../utils/config';
 import './login.css';
 import { message } from 'antd';
 import { encrypt } from '../../utils/aes';
+import axios from 'axios';
 import {browserHistory} from 'react-router'
 
 class Login extends React.Component {
@@ -15,8 +16,10 @@ class Login extends React.Component {
             userName: '',
             passWord: '',
             capText: '',
-            qrCode: ''
+            qrCode: '',
+            CPSP_BACK_USER_TOKEN: ''
         }
+
         this.submit = this.submit.bind(this);
         this.userChange = this.userChange.bind(this);
         this.passChange = this.passChange.bind(this);
@@ -37,13 +40,13 @@ class Login extends React.Component {
             message.error("请输入验证码");
         } else {
             params.passWord = encrypt(params);
-            console.log(params)
-            api.login(params).then(function (res) {
-                console.log(res)
+            axios.defaults.headers.common['CPSP_BACK_USER_TOKEN'] = this.state.CPSP_BACK_USER_TOKEN;
+            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDQ1MTU2Njg3MzUsInBheWxvYWQiOiJcIjEwNTUwMzA5ODMwODM5NTQxNzdcIiJ9.QmEUmG52IV_APby7s1JWObT0nVyg6Jt7AJbMezmtK-s';
+            api.login(params).then( (res) => {
+                sessionStorage.setItem('token',token);
+                browserHistory.push('/home');
             })
         }
-
-        // browserHistory.push('/home');
     }
 
     userChange =(event) => {
@@ -67,7 +70,8 @@ class Login extends React.Component {
     componentDidMount(){
         api.getQrcode().then(res => {
             this.setState({
-                qrCode: global.imgRoot + res.img
+                qrCode: global.imgRoot + res.img,
+                CPSP_BACK_USER_TOKEN: res.CPSP_BACK_USER_TOKEN
             })
         })
     }

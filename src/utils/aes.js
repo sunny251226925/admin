@@ -1,9 +1,15 @@
-import * as CryptoJS from 'crypto-js';
+var CryptoJS = require("crypto-js");
+
 
 /*AES加密*/
-export function encrypt(data) {
-    let AES_KEY = CryptoJS.enc.Utf8.parse("AZB_AES_PASSWORD");
-    let sendData = CryptoJS.enc.Utf8.parse(data);
-    let encrypted = CryptoJS.AES.encrypt(sendData, AES_KEY,{mode:CryptoJS.mode.ECB,padding:CryptoJS.pad.Pkcs7});
-    return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+export function encrypt(word) {
+    // console.log(word);
+    var key = CryptoJS.enc.Utf8.parse('AZB_AES_PASSWORD');
+    var srcs = CryptoJS.enc.Utf8.parse(word);
+    var encrypted = CryptoJS.AES.encrypt(srcs, key, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+    });
+    // console.log(encrypted.toString())
+    return encrypted.toString();
 }

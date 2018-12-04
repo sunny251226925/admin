@@ -7,13 +7,12 @@ axios.defaults.timeout = 10000; // 请求超时
 
 axios.interceptors.request.use( config => {
     config.headers["Content-Type"] = "application/json";
-    config.headers["token"] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDQ0MTE5OTQ2MDUsInBheWxvYWQiOiJcIjI2MzAxNDE4NTk3MjI3MzE1MlwiIn0.bgOigPdCqAGxFjLzsB3kq_w0zVQuoydvuai-3_DTf1M";
+    config.headers["token"] = sessionStorage.getItem('token');
     config.headers["source"] = "pc";
     return config;
 })
 
 axios.interceptors.response.use( response => {
-    console.log(response)
     if (response.status >= 200 && response.status <= 300) {
         if(response.data.code >= 200 && response.data.code <= 200){
             return response.data;

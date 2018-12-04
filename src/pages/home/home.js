@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {  Layout, Menu, Breadcrumb, Icon, message } from 'antd'
 import api from '../../utils/api'
 
@@ -10,63 +10,78 @@ message.config({
     duration: 2
 });
 
-class Home extends Component {
+class Home extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            menuList: [],
+            sidebarList: []
+        }
 
-        this.change = this.change.bind(this);
+        this.getSidebar = this.getSidebar.bind(this);
     }
 
-    change(e){
-        console.log(e.target.checked)
+    getSidebar = () => {
+       console.log('111')
     }
 
     componentDidMount(){
         api.getMenu().then(res => {
-            console.log(res)
-        }).catch(err =>{
-            console.log(err)
+            this.setState({
+                menuList: res,
+                sidebarList: res[0].children
+            })
+            console.log(this.state.menuList[0].code,this.state.menuList)
         })
     }
 
     render() {
         return (
             <Layout>
-                <Header className="header">
+                <Header className="header" >
                     <div className="logo" />
-                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['aaa']} style={{ lineHeight: '64px' }}>
-                        <Menu.Item key="aaa">nav 1</Menu.Item>
-                        <Menu.Item key="2">nav 2</Menu.Item>
-                        <Menu.Item key="3">nav 3</Menu.Item>
-                    </Menu>
+                    {
+                        this.state.sidebarList.length > 0 ?
+                        <Menu theme="dark" mode="horizontal"  defaultSelectedKeys={[this.state.menuList[0].code]} style={{ lineHeight: '64px' }}>
+                            {
+                                this.state.menuList.map( (item) =>
+                                    <Menu.Item key={item.code} onClick={this.getSidebar = () => {
+                                        this.setState({
+                                            sidebarList: item.children
+                                        })
+                                    }
+                                    }>{item.name}</Menu.Item>
+                                )
+                            }
+                        </Menu> : null
+                    }
                 </Header>
                 <Layout>
                     <Sider width={200} style={{ background: '#fff' }} >
-                        <Menu
-                            mode="inline"
-                            defaultSelectedKeys={['1']}
-                            defaultOpenKeys={['sub1']}
-                            style={{ height: '100%', borderRight: 0 }}
-                        >
-                            <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
-                                <Menu.Item key="1">option1</Menu.Item>
-                                <Menu.Item key="2">option2</Menu.Item>
-                                <Menu.Item key="3">option3</Menu.Item>
-                                <Menu.Item key="4">option4</Menu.Item>
-                            </SubMenu>
-                            <SubMenu key="sub2" title={<span><Icon type="laptop" />subnav 2</span>}>
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="6">option6</Menu.Item>
-                                <Menu.Item key="7">option7</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
-                            <SubMenu key="sub3" title={<span><Icon type="notification" />subnav 3</span>}>
-                                <Menu.Item key="9">option9</Menu.Item>
-                                <Menu.Item key="10">option10</Menu.Item>
-                                <Menu.Item key="11">option11</Menu.Item>
-                                <Menu.Item key="12">option12</Menu.Item>
-                            </SubMenu>
-                        </Menu>
+                        {
+                            this.state.sidebarList.length > 0 ?
+                            <Menu mode="inline" defaultSelectedKeys={[this.state.sidebarList[0].code]} defaultOpenKeys={[this.state.sidebarList[1].code]} style={{ height: '100%', borderRight: 0 }}>
+
+                                {
+                                    this.state.sidebarList.map( (item) =>
+                                        item.children.length > 0 ?
+                                        <SubMenu key={item.code} title={<span><Icon type="user" />{item.name}</span>}>
+                                            {
+                                                item.children.map( (m) =>
+                                                    <Menu.Item key={m.code}>{m.name}</Menu.Item>
+                                                )
+                                            }
+                                        </SubMenu> :
+                                        <Menu.Item key={item.code}>
+                                            <Icon type="pie-chart" />
+                                            <span>{item.name}</span>
+                                        </Menu.Item>
+                                    )
+                                }
+
+                            </Menu> : null
+                        }
+
                     </Sider>
                     <Layout style={{ padding: '0 24px 24px' }}>
                         <Breadcrumb style={{ margin: '16px 0' }}>
