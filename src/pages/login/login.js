@@ -41,7 +41,7 @@ class Login extends React.Component {
         } else {
             params.passWord = encrypt(params);
             axios.defaults.headers.common['CPSP_BACK_USER_TOKEN'] = this.state.CPSP_BACK_USER_TOKEN;
-            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDQ1MTU2Njg3MzUsInBheWxvYWQiOiJcIjEwNTUwMzA5ODMwODM5NTQxNzdcIiJ9.QmEUmG52IV_APby7s1JWObT0nVyg6Jt7AJbMezmtK-s';
+            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDQ1ODI4MzA4NTgsInBheWxvYWQiOiJcIjI2MzAxNDE4NTk3MjI3MzE1MlwiIn0.lOCDs40QvPy_CDzdrJFyW-E3T4Yl60EPpIOJsMWzf4U';
             api.login(params).then( (res) => {
                 sessionStorage.setItem('token',token);
                 browserHistory.push('/home');

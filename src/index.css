@@ -30,3 +30,23 @@ li{
     background-color: rgba(0,0,0,0.6) !important;
     color: #fff !important;
 }
+.ant-menu.ant-menu-dark.ant-menu-root.ant-menu-horizontal{
+    width: 1200px;
+}
+.ant-menu{
+    float: left;
+}
+.header .userInfo{
+    position: relative;
+    width: 200px;
+    height: 100%;
+    float: right;
+    color: #fff;
+}
+.ant-layout-sider{
+    overflow: hidden;
+}
+.ant-layout-sider-children{
+    overflow-x: hidden;
+    overflow-y: auto;
+}

@@ -20,6 +20,7 @@ axios.interceptors.response.use( response => {
             message.error(response.data.data, function () {
                 browserHistory.push('/');
             });
+            return response.data;
         } else {
             message.error(response.data.data);
             return response.data;
