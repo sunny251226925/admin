@@ -1,6 +1,7 @@
 import React from 'react'
 import {  Layout, Menu, Breadcrumb, Icon, message } from 'antd'
 import api from '../../utils/api'
+import {browserHistory} from 'react-router'
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
@@ -32,19 +33,24 @@ class Home extends React.Component {
 
     // 选中一级菜单
     navChange = (item) => {
+        const index = this.state.menuList.indexOf(item);
         this.setState({
             sidebarList: item.children,
-            navIndex: this.state.menuList.indexOf(item)
+            navIndex: index
         })
+        console.log(item)
         if( item.children[0].children && item.children[0].children.length > 0){
+            console.log("111")
             this.setState({
                 sidebarSelected: item.children[0].children[0],
                 sidebarOpen: item.children[0]
             })
+            browserHistory.push('/' + item.children[0].children[0].href);
         } else {
             this.setState({
                 sidebarSelected: item.children[0],
             })
+            browserHistory.push('/' + item.children[0].href);
         }
     }
 
@@ -55,6 +61,7 @@ class Home extends React.Component {
                 sidebarSelected: item.children[0],
                 sidebarOpen: item
             })
+            browserHistory.push('/' + item.children[0].href);
         } else {
             if(item.code.split("_")[2] === '2'){
                 this.setState({
@@ -66,6 +73,7 @@ class Home extends React.Component {
                     sidebarSelected: item
                 })
             }
+            browserHistory.push('/' + item.href);
         }
     }
 

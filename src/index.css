@@ -50,3 +50,6 @@ li{
     overflow-x: hidden;
     overflow-y: auto;
 }
+.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-has-trigger{
+    background-color: #fff;
+}
