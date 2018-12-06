@@ -1,8 +1,8 @@
-import React from 'react'
-import {  Layout, Menu, Breadcrumb, Icon, message } from 'antd'
-import api from '../../utils/api'
-import {browserHistory} from 'react-router'
-
+import React from 'react';
+import {  Layout, Menu, Breadcrumb, Icon, message } from 'antd';
+import api from '../../utils/api';
+import RouterSon from '../../utils/routerSon';
+import {cookie} from '../../utils/common';
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -11,16 +11,24 @@ message.config({
     duration: 2
 });
 
-class Home extends React.Component {
+class App extends React.Component {
     constructor(props){
         super(props);
+
+        let sidebarSelected = cookie.get("sidebarSelected");
+            sidebarSelected = sidebarSelected ? JSON.parse(sidebarSelected) : {};
+        let sidebarOpen = cookie.get("sidebarOpen");
+            sidebarOpen = sidebarOpen ? JSON.parse(sidebarOpen) : {};
+
         this.state = {
             menuList: [], // 一级菜单
             sidebarList: [], // 二级菜单及以下
-            navIndex: 0, // 已选中的一级菜单坐标
-            sidebarSelected: {}, // 已选中的二级菜单
-            sidebarOpen: {}, // 已打开的二级菜单  二级菜单下如有还有菜单,  需要折叠
-            collapsed: false // sidebar展开开关
+            navIndex: cookie.get('navIndex') ? cookie.get('navIndex') : 0, // 已选中的一级菜单坐标
+            sidebarSelected: sidebarSelected, // 已选中的二级菜单
+            sidebarOpen: sidebarOpen, // 已打开的二级菜单  二级菜单下如有还有菜单,  需要折叠
+            collapsed: false, // sidebar展开开关
+            user: null, // 用户信息
+            person: null // 人员角色
         }
     }
 
@@ -33,57 +41,96 @@ class Home extends React.Component {
 
     // 选中一级菜单
     navChange = (item) => {
+        const {history} = this.props;
         const index = this.state.menuList.indexOf(item);
+        cookie.put('navIndex', index);
         this.setState({
             sidebarList: item.children,
             navIndex: index
         })
-        console.log(item)
-        if( item.children[0].children && item.children[0].children.length > 0){
-            console.log("111")
-            this.setState({
-                sidebarSelected: item.children[0].children[0],
-                sidebarOpen: item.children[0]
-            })
-            browserHistory.push('/' + item.children[0].children[0].href);
+        if( item.children.length > 0){
+            if( item.children[0].children && item.children[0].children.length > 0){
+                this.setState({
+                    sidebarSelected: item.children[0].children[0],
+                    sidebarOpen: item.children[0]
+                })
+                cookie.put('sidebarSelected',JSON.stringify(item.children[0].children[0]));
+                cookie.put('sidebarOpen',JSON.stringify(item.children[0]));
+                history.push('/app/' + item.children[0].children[0].href);
+            } else {
+                this.setState({
+                    sidebarSelected: item.children[0],
+                })
+                cookie.put('sidebarSelected',JSON.stringify(item.children[0]));
+                cookie.put('sidebarOpen',JSON.stringify({}));
+                history.push('/app/' + item.children[0].href);
+            }
         } else {
             this.setState({
-                sidebarSelected: item.children[0],
+                sidebarSelected: {},
+                sidebarOpen: {}
             })
-            browserHistory.push('/' + item.children[0].href);
+            cookie.put('sidebarSelected',JSON.stringify({}));
+            cookie.put('sidebarOpen',JSON.stringify({}));
         }
+
     }
 
     // 选中二级菜单
     sidebarChange = (item) => {
+        const {history} = this.props;
         if(item.children && item.children.length > 0 ){
             this.setState({
                 sidebarSelected: item.children[0],
                 sidebarOpen: item
             })
-            browserHistory.push('/' + item.children[0].href);
+            cookie.put('sidebarSelected',JSON.stringify(item.children[0]));
+            cookie.put('sidebarOpen',JSON.stringify(item));
+            history.push('/app/' + item.children[0].href);
         } else {
             if(item.code.split("_")[2] === '2'){
                 this.setState({
                     sidebarSelected: item,
                     sidebarOpen: {}
                 })
+                cookie.put('sidebarSelected',JSON.stringify(item));
+                cookie.put('sidebarOpen',JSON.stringify({}));
             } else {
                 this.setState({
                     sidebarSelected: item
                 })
+                cookie.put('sidebarSelected',JSON.stringify(item));
             }
-            browserHistory.push('/' + item.href);
+
+            history.push('/app/' + item.href);
+        }
+    }
+
+    componentWillMount(){
+        const {history} = this.props;
+        if(!cookie.get("token")){
+            history.push("/");
+            cookie.remove('navIndex');
         }
     }
 
     componentDidMount(){
         //获取菜单list
-        api.getMenu().then(res => {
+        api.getMenu().then( res => {
+            if(res instanceof Array){
+                res[0].children = [];
+                this.setState({
+                    menuList: res,
+                    sidebarList: res[this.state.navIndex].children
+                })
+            }
+        })
+
+        //获取用户详情
+        api.getUserInfo().then( res => {
             this.setState({
-                menuList: res,
-                sidebarList: res[0].children,
-                sidebarSelected: res[0].children[0],
+                user: res.user,
+                person: res.person
             })
         })
     }
@@ -91,11 +138,15 @@ class Home extends React.Component {
     render() {
         return (
             <Layout>
-                <Header className="header" >
+                <Header className="header">
                     <div className="logo"></div>
                     {
                         this.state.menuList.length > 0 ?
-                        <Menu theme="dark" mode="horizontal" selectedKeys={[this.state.menuList[this.state.navIndex].code]}  defaultSelectedKeys={[this.state.menuList[this.state.navIndex].code]} style={{ lineHeight: '64px' }}>
+                        <Menu theme="dark"
+                              mode="horizontal"
+                              selectedKeys={[this.state.menuList[this.state.navIndex].code]}
+                              defaultSelectedKeys={[this.state.menuList[this.state.navIndex].code]}
+                              style={{ lineHeight: '64px' }}>
                             {
                                 this.state.menuList.map( (item) =>
                                     <Menu.Item key={item.code} onClick={ this.navChange.bind(this,item)}>{item.name}</Menu.Item>
@@ -104,7 +155,8 @@ class Home extends React.Component {
                         </Menu> : null
                     }
                     <div className="userInfo">
-                        xxx
+                        {this.state.user ? <p>{this.state.user.userName}</p> : null}
+                        {this.state.person ? <p>{this.state.person.name}</p> : null}
                     </div>
                 </Header>
                 <Layout>
@@ -114,8 +166,8 @@ class Home extends React.Component {
                             <Menu mode="inline"
                                   selectedKeys={[this.state.sidebarSelected.code]}
                                   openKeys={[this.state.sidebarOpen.code]}
-                                  defaultSelectedKeys={[this.state.sidebarList[0].code]}
-                                  defaultOpenKeys={[this.state.sidebarList[0].code]}
+                                  defaultSelectedKeys={[this.state.sidebarSelected.code]}
+                                  defaultOpenKeys={[this.state.sidebarOpen.code]}
                                   style={{ height: '100%', borderRight: 0 }}>
                                 {
                                     this.state.sidebarList.map( (item) =>
@@ -153,8 +205,8 @@ class Home extends React.Component {
                                     <Breadcrumb.Item>{this.state.sidebarSelected.name}</Breadcrumb.Item> : null
                             }
                         </Breadcrumb>
-                        <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280,}}>
-                            {this.state.navIndex}
+                        <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
+                            <RouterSon />
                         </Content>
                         <Footer style={{ textAlign: 'center' }}>
                             Ant Design ©2018 Created by Ant UED
@@ -166,4 +218,4 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+export default App;

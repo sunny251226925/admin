@@ -8,12 +8,36 @@ li{
 .ant-layout{
     height: 100%;
 }
-.logo {
+.header{
+    position: relative;
+    overflow: hidden;
+}
+.header.ant-layout-header{
+    padding: 0 180px 0 160px;
+}
+.header .logo {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 120px;
-    height: 31px;
+    height: 30px;
     background: rgba(255,255,255,.2);
-    margin: 16px 28px 16px 0;
-    float: left;
+    margin: 17px 10px 17px 30px;
+}
+
+.header .userInfo{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 180px;
+    height: 100%;
+    padding: 10px 0;
+    line-height: 22px;
+    color: #fff;
+    text-align: center;
+}
+.header .userInfo p{
+    margin-bottom: 0;
 }
 .ant-layout-sider.ant-layout-sider-dark{
     overflow-x: hidden;
@@ -30,19 +54,7 @@ li{
     background-color: rgba(0,0,0,0.6) !important;
     color: #fff !important;
 }
-.ant-menu.ant-menu-dark.ant-menu-root.ant-menu-horizontal{
-    width: 1200px;
-}
-.ant-menu{
-    float: left;
-}
-.header .userInfo{
-    position: relative;
-    width: 200px;
-    height: 100%;
-    float: right;
-    color: #fff;
-}
+
 .ant-layout-sider{
     overflow: hidden;
 }

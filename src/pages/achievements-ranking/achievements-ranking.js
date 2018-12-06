@@ -1,7 +1,5 @@
 import React from 'react'
-import { Button } from 'antd'
-import api from '../../utils/api'
-import Home from '../home/home';
+import { Input, Row, Col } from 'antd'
 
 class achievementsRanking extends React.Component {
     constructor(props){
@@ -15,7 +13,17 @@ class achievementsRanking extends React.Component {
     render() {
         return (
             <div>
-                <Home/>
+                <Row type="flex">
+                    <Col>
+                        <Input placeholder="mysite" maxLength={15}/>
+                    </Col>
+                    <Col>
+                        <Input placeholder="mysite" maxLength={15}/>
+                    </Col>
+                    <Col>
+                        <Input placeholder="mysite" maxLength={15}/>
+                    </Col>
+                </Row>
             </div>
         );
     }

@@ -3,11 +3,12 @@ import logo from '../../images/logo.png';
 import logoTitle from '../../images/logo-2.png';
 import api from '../../utils/api';
 import global from '../../utils/config';
-import './login.css';
 import { message } from 'antd';
 import { encrypt } from '../../utils/aes';
 import axios from 'axios';
-import {browserHistory} from 'react-router'
+import './login.css';
+import {cookie} from '../../utils/common';
+
 
 class Login extends React.Component {
     constructor(props){
@@ -39,12 +40,13 @@ class Login extends React.Component {
         } else if (params.capText === ''){
             message.error("请输入验证码");
         } else {
+            const {history} = this.props;
             params.passWord = encrypt(params);
             axios.defaults.headers.common['CPSP_BACK_USER_TOKEN'] = this.state.CPSP_BACK_USER_TOKEN;
-            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDQ1ODI4MzA4NTgsInBheWxvYWQiOiJcIjI2MzAxNDE4NTk3MjI3MzE1MlwiIn0.lOCDs40QvPy_CDzdrJFyW-E3T4Yl60EPpIOJsMWzf4U';
+            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDQ2OTE1MTQyMDcsInBheWxvYWQiOiJcIjEwNTUwMzA5ODMwODM5NTQxNzdcIiJ9.VsSpUc6SV4GtXreedc77MoVO8M_oNBLbhiUg_GcOP5k';
             api.login(params).then( (res) => {
-                sessionStorage.setItem('token',token);
-                browserHistory.push('/home');
+                cookie.put('token',token)
+                history.push("/app");
             })
         }
     }

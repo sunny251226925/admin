@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { message } from 'antd';
-import { browserHistory } from 'react-router'
+import {cookie} from './common';
+
 axios.defaults.baseURL = 'http://140.143.151.190:890/api'; //api 地址
 axios.defaults.withCredentials = true; //跨域允许传递 cookie
 axios.defaults.timeout = 10000; // 请求超时
 
 axios.interceptors.request.use( config => {
     config.headers["Content-Type"] = "application/json";
-    config.headers["token"] = sessionStorage.getItem('token');
+    config.headers["token"] = cookie.get('token');
     config.headers["source"] = "pc";
     return config;
 })
@@ -18,7 +19,7 @@ axios.interceptors.response.use( response => {
             return response.data;
         } else if(response.data.code === 401) {
             message.error(response.data.data, function () {
-                browserHistory.push('/');
+                // window.location.href = "http://localhost:3000"
             });
             return response.data;
         } else {
