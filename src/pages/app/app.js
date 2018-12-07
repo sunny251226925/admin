@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Layout, Menu, Breadcrumb, Icon, message } from 'antd';
+import {  Layout, Menu, Breadcrumb, Icon, message, Dropdown } from 'antd';
 import api from '../../utils/api';
 import RouterSon from '../../utils/routerSon';
 import {cookie} from '../../utils/common';
@@ -34,6 +34,7 @@ class App extends React.Component {
 
     //sidebar展开函数
     sidebarToggle = (collapsed) => {
+        console.log(collapsed)
         this.setState({
             collapsed: collapsed
         });
@@ -43,7 +44,6 @@ class App extends React.Component {
     navChange = (item) => {
         const {history} = this.props;
         const index = this.state.menuList.indexOf(item);
-        cookie.put('navIndex', index);
         this.setState({
             sidebarList: item.children,
             navIndex: index
@@ -60,6 +60,7 @@ class App extends React.Component {
             } else {
                 this.setState({
                     sidebarSelected: item.children[0],
+                    sidebarOpen: {}
                 })
                 cookie.put('sidebarSelected',JSON.stringify(item.children[0]));
                 cookie.put('sidebarOpen',JSON.stringify({}));
@@ -73,7 +74,7 @@ class App extends React.Component {
             cookie.put('sidebarSelected',JSON.stringify({}));
             cookie.put('sidebarOpen',JSON.stringify({}));
         }
-
+        cookie.put('navIndex', index);
     }
 
     // 选中二级菜单
@@ -101,8 +102,15 @@ class App extends React.Component {
                 })
                 cookie.put('sidebarSelected',JSON.stringify(item));
             }
-
             history.push('/app/' + item.href);
+        }
+    }
+
+    dropDownClick = (item) =>{
+        const {history} = this.props;
+        if(item.key === '3'){
+            cookie.clear();
+            history.push("/");
         }
     }
 
@@ -155,8 +163,18 @@ class App extends React.Component {
                         </Menu> : null
                     }
                     <div className="userInfo">
-                        {this.state.user ? <p>{this.state.user.userName}</p> : null}
-                        {this.state.person ? <p>{this.state.person.name}</p> : null}
+                        <Dropdown overlayStyle={{width:180}}
+                                  overlay={
+                                      <Menu onClick={this.dropDownClick}>
+                                        <Menu.Item key="1"><Icon type="user"/>个人信息</Menu.Item>
+                                        <Menu.Item key="2"><Icon type="unlock" />修改密码</Menu.Item>
+                                        <Menu.Item key="3"><Icon type="poweroff" />退出</Menu.Item>
+                                      </Menu>}>
+                            <span>
+                                {this.state.user ? <p>{this.state.user.userName}</p> : null}
+                                {this.state.person ? <p>{this.state.person.name}<Icon type="down" /></p> : null}
+                            </span>
+                        </Dropdown>
                     </div>
                 </Header>
                 <Layout>
@@ -171,7 +189,7 @@ class App extends React.Component {
                                   style={{ height: '100%', borderRight: 0 }}>
                                 {
                                     this.state.sidebarList.map( (item) =>
-                                        item.children ?
+                                        item.children && item.children.length > 0 ?
                                         <SubMenu key={item.code}
                                                  onTitleClick={this.sidebarChange.bind(this,item)}
                                                  title={<span><Icon type="team" />{item.name}</span>}>

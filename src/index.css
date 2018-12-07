@@ -33,8 +33,10 @@ li{
     height: 100%;
     padding: 10px 0;
     line-height: 22px;
-    color: #fff;
     text-align: center;
+}
+.header .userInfo span{
+    color: #fff;
 }
 .header .userInfo p{
     margin-bottom: 0;
