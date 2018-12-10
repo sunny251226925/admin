@@ -67,3 +67,12 @@ li{
 .ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-has-trigger{
     background-color: #fff;
 }
+.ant-layout-content{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.list-box{
+    margin-top: 25px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

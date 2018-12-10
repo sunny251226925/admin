@@ -1,8 +1,10 @@
 import React from 'react';
-import {  Layout, Menu, Breadcrumb, Icon, message, Dropdown } from 'antd';
+import {  Layout, Menu, Breadcrumb, Icon, message, Dropdown, LocaleProvider } from 'antd';
 import api from '../../utils/api';
 import RouterSon from '../../utils/routerSon';
 import {cookie} from '../../utils/common';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -73,6 +75,7 @@ class App extends React.Component {
             })
             cookie.put('sidebarSelected',JSON.stringify({}));
             cookie.put('sidebarOpen',JSON.stringify({}));
+            history.push('/app/' + item.href);
         }
         cookie.put('navIndex', index);
     }
@@ -145,93 +148,95 @@ class App extends React.Component {
 
     render() {
         return (
-            <Layout>
-                <Header className="header">
-                    <div className="logo"></div>
-                    {
-                        this.state.menuList.length > 0 ?
-                        <Menu theme="dark"
-                              mode="horizontal"
-                              selectedKeys={[this.state.menuList[this.state.navIndex].code]}
-                              defaultSelectedKeys={[this.state.menuList[this.state.navIndex].code]}
-                              style={{ lineHeight: '64px' }}>
-                            {
-                                this.state.menuList.map( (item) =>
-                                    <Menu.Item key={item.code} onClick={ this.navChange.bind(this,item)}>{item.name}</Menu.Item>
-                                )
-                            }
-                        </Menu> : null
-                    }
-                    <div className="userInfo">
-                        <Dropdown overlayStyle={{width:180}}
-                                  overlay={
-                                      <Menu onClick={this.dropDownClick}>
-                                        <Menu.Item key="1"><Icon type="user"/>个人信息</Menu.Item>
-                                        <Menu.Item key="2"><Icon type="unlock" />修改密码</Menu.Item>
-                                        <Menu.Item key="3"><Icon type="poweroff" />退出</Menu.Item>
-                                      </Menu>}>
-                            <span>
-                                {this.state.user ? <p>{this.state.user.userName}</p> : null}
-                                {this.state.person ? <p>{this.state.person.name}<Icon type="down" /></p> : null}
-                            </span>
-                        </Dropdown>
-                    </div>
-                </Header>
+            <LocaleProvider locale={zhCN}>
                 <Layout>
-                    <Sider collapsed={this.state.collapsed} onCollapse={this.sidebarToggle} collapsible>
+                    <Header className="header">
+                        <div className="logo"></div>
                         {
-                            this.state.sidebarList.length > 0 ?
-                            <Menu mode="inline"
-                                  selectedKeys={[this.state.sidebarSelected.code]}
-                                  openKeys={[this.state.sidebarOpen.code]}
-                                  defaultSelectedKeys={[this.state.sidebarSelected.code]}
-                                  defaultOpenKeys={[this.state.sidebarOpen.code]}
-                                  style={{ height: '100%', borderRight: 0 }}>
+                            this.state.menuList.length > 0 ?
+                            <Menu theme="dark"
+                                  mode="horizontal"
+                                  selectedKeys={[this.state.menuList[this.state.navIndex].code]}
+                                  defaultSelectedKeys={[this.state.menuList[this.state.navIndex].code]}
+                                  style={{ lineHeight: '64px' }}>
                                 {
-                                    this.state.sidebarList.map( (item) =>
-                                        item.children && item.children.length > 0 ?
-                                        <SubMenu key={item.code}
-                                                 onTitleClick={this.sidebarChange.bind(this,item)}
-                                                 title={<span><Icon type="team" />{item.name}</span>}>
-                                            {
-                                                item.children.map( (m) =>
-                                                    <Menu.Item key={m.code} onClick={this.sidebarChange.bind(this,m)}>{m.name}</Menu.Item>
-                                                )
-                                            }
-                                        </SubMenu> :
-                                        <Menu.Item key={item.code} onClick={this.sidebarChange.bind(this,item)}>
-                                            <Icon type="pie-chart" />
-                                            <span>{item.name}</span>
-                                        </Menu.Item>
+                                    this.state.menuList.map( (item) =>
+                                        <Menu.Item key={item.code} onClick={ this.navChange.bind(this,item)}>{item.name}</Menu.Item>
                                     )
                                 }
                             </Menu> : null
                         }
-                    </Sider>
-                    <Layout style={{ padding: '0 24px 0 24px' }}>
-                        <Breadcrumb style={{ margin: '16px 0' }}>
+                        <div className="userInfo">
+                            <Dropdown overlayStyle={{width:180}}
+                                      overlay={
+                                          <Menu onClick={this.dropDownClick}>
+                                            <Menu.Item key="1"><Icon type="user"/>个人信息</Menu.Item>
+                                            <Menu.Item key="2"><Icon type="unlock" />修改密码</Menu.Item>
+                                            <Menu.Item key="3"><Icon type="poweroff" />退出</Menu.Item>
+                                          </Menu>}>
+                                <span>
+                                    {this.state.user ? <p>{this.state.user.userName}</p> : null}
+                                    {this.state.person ? <p>{this.state.person.name}<Icon type="down" /></p> : null}
+                                </span>
+                            </Dropdown>
+                        </div>
+                    </Header>
+                    <Layout>
+                        <Sider collapsed={this.state.collapsed} onCollapse={this.sidebarToggle} collapsible>
                             {
-                                this.state.menuList.length > 0 ?
-                                    <Breadcrumb.Item>{this.state.menuList[this.state.navIndex].name}</Breadcrumb.Item> : null
+                                this.state.sidebarList.length > 0 ?
+                                <Menu mode="inline"
+                                      selectedKeys={[this.state.sidebarSelected.code]}
+                                      openKeys={[this.state.sidebarOpen.code]}
+                                      defaultSelectedKeys={[this.state.sidebarSelected.code]}
+                                      defaultOpenKeys={[this.state.sidebarOpen.code]}
+                                      style={{ height: '100%', borderRight: 0 }}>
+                                    {
+                                        this.state.sidebarList.map( (item) =>
+                                            item.children && item.children.length > 0 ?
+                                            <SubMenu key={item.code}
+                                                     onTitleClick={this.sidebarChange.bind(this,item)}
+                                                     title={<span><Icon type="team" />{item.name}</span>}>
+                                                {
+                                                    item.children.map( (m) =>
+                                                        <Menu.Item key={m.code} onClick={this.sidebarChange.bind(this,m)}>{m.name}</Menu.Item>
+                                                    )
+                                                }
+                                            </SubMenu> :
+                                            <Menu.Item key={item.code} onClick={this.sidebarChange.bind(this,item)}>
+                                                <Icon type="pie-chart" />
+                                                <span>{item.name}</span>
+                                            </Menu.Item>
+                                        )
+                                    }
+                                </Menu> : null
                             }
-                            {
-                                this.state.menuList.length > 0 && this.state.sidebarOpen ?
-                                    <Breadcrumb.Item>{this.state.sidebarOpen.name}</Breadcrumb.Item> : null
-                            }
-                            {
-                                this.state.menuList.length > 0 ?
-                                    <Breadcrumb.Item>{this.state.sidebarSelected.name}</Breadcrumb.Item> : null
-                            }
-                        </Breadcrumb>
-                        <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
-                            <RouterSon />
-                        </Content>
-                        <Footer style={{ textAlign: 'center' }}>
-                            Ant Design ©2018 Created by Ant UED
-                        </Footer>
+                        </Sider>
+                        <Layout style={{ padding: '0 24px 0 24px' }}>
+                            <Breadcrumb style={{ margin: '16px 0' }}>
+                                {
+                                    this.state.menuList.length > 0 ?
+                                        <Breadcrumb.Item>{this.state.menuList[this.state.navIndex].name}</Breadcrumb.Item> : null
+                                }
+                                {
+                                    this.state.menuList.length > 0 && this.state.sidebarOpen ?
+                                        <Breadcrumb.Item>{this.state.sidebarOpen.name}</Breadcrumb.Item> : null
+                                }
+                                {
+                                    this.state.menuList.length > 0 ?
+                                        <Breadcrumb.Item>{this.state.sidebarSelected.name}</Breadcrumb.Item> : null
+                                }
+                            </Breadcrumb>
+                            <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
+                                    <RouterSon />
+                            </Content>
+                            <Footer style={{ textAlign: 'center' }}>
+                                Ant Design ©2018 Created by Ant UED
+                            </Footer>
+                        </Layout>
                     </Layout>
                 </Layout>
-            </Layout>
+             </LocaleProvider>
         );
     }
 }
