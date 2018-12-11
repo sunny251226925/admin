@@ -3,7 +3,8 @@ import {  Layout, Menu, Breadcrumb, Icon, message, Dropdown, LocaleProvider } fr
 import api from '../../utils/api';
 import RouterSon from '../../utils/routerSon';
 import {cookie} from '../../utils/common';
-import zhCN from 'antd/lib/locale-provider/zh_CN';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import 'moment/locale/zh-cn'
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
@@ -148,7 +149,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <LocaleProvider locale={zhCN}>
+            <LocaleProvider locale={zh_CN}>
                 <Layout>
                     <Header className="header">
                         <div className="logo"></div>

@@ -28,6 +28,10 @@ const api = {
     //绩效考核-考核结果  搜索
     searchList: (params) => {
         return post('/newkpi/v1/Result/list', params)
+    },
+    //绩效考核-考核结果  查看详情
+    searchDetail: (params) => {
+        return post('/newkpi/v1/ResultDetail/list', params)
     }
 };
 

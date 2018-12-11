@@ -1,10 +1,11 @@
 import React from 'react'
-import { Input } from 'antd'
-import api from '../../utils/api'
 
 class welcome extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            text: "欢迎光临"
+        }
     }
 
     componentDidMount(){
@@ -14,7 +15,7 @@ class welcome extends React.Component {
     render() {
         return (
             <div>
-                欢迎光临
+                {this.state.text}
             </div>
         );
     }
