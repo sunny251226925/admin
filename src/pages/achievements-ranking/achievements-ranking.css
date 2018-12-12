@@ -4,7 +4,8 @@
     border: 1px solid #d9d9d9;
     border-radius: 6px;
 }
-.ant-advanced-search-form .ant-select{
+.ant-advanced-search-form .ant-select,
+.ant-advanced-search-form .ant-calendar-picker{
     width: 100%;
 }
 

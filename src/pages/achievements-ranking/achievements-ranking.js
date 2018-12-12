@@ -39,8 +39,7 @@ class achievementsRanking extends React.Component {
             currentPage: 1, //分页 - 当前页
             pageSize: 10, //分页 - 条数
             totalRecord: 0, //分页 - 总条数
-            planList: [], //考核明细 list
-            reset: 1
+            planList: [] //考核明细 list
         }
 
         this.getFields = this.getFields.bind(this);
@@ -92,8 +91,7 @@ class achievementsRanking extends React.Component {
             planId: state.plan[0].id, // 方案id
             period: cycle[0].period, //周期
             year: '2018', //年
-            interval: 5, //月
-            reset: 2
+            interval: 7 //月
         }))
     }
 
@@ -161,7 +159,7 @@ class achievementsRanking extends React.Component {
                 <FormItem label={`指标范围`} >
                     {
                         this.state.range.length > 0 && this.state.scope ?
-                            <Select defaultValue={this.state.scope + ''}
+                            <Select value={this.state.scope + ''}
                                     onChange={this.scopeChange}
                                     placeholder='请选择指标范围'>
                             {
@@ -185,7 +183,7 @@ class achievementsRanking extends React.Component {
                                 style={{ width: '100%' }}
                                 dropdownStyle={{ height: 300, overflow: 'auto' }}
                                 placeholder="请选择项目"
-                                defaultValue={this.state.scopeId}
+                                value={this.state.scopeId}
                                 treeData={this.state.treeData}
                                 allowClear
                                 treeDefaultExpandAll
@@ -200,7 +198,7 @@ class achievementsRanking extends React.Component {
                 <FormItem label={`选择方案`} >
                     {
                         this.state.plan.length > 0 && this.state.planId ?
-                            <Select defaultValue={ this.state.planId}
+                            <Select value={ this.state.planId}
                                     onChange={this.planChange}
                                     placeholder='请选择方案'>
                                 {
@@ -217,7 +215,7 @@ class achievementsRanking extends React.Component {
         children.push(
             <Col span={8} key="4" >
                 <FormItem label={`选择周期`} >
-                    <Select defaultValue={ this.state.period}
+                    <Select value={ this.state.period}
                             onChange={this.cycleChange}
                             disabled={true}
                             placeholder='请选择周期'>
@@ -233,7 +231,7 @@ class achievementsRanking extends React.Component {
         children.push(
             <Col span={8} key="5" >
                 <FormItem label={`考核时间`} >
-                    <MonthPicker defaultValue={moment( this.state.year + '/' + this.state.interval, 'YYYY/MM')} onChange={this.timeChange} placeholder="请选择年月" />
+                    <MonthPicker value={moment( this.state.year + '/' + this.state.interval, 'YYYY/MM')} onChange={this.timeChange} placeholder="请选择年月" />
                 </FormItem>
             </Col>
         );
@@ -261,7 +259,6 @@ class achievementsRanking extends React.Component {
 
     confirmModal = () => {
         this.setState({
-            ModalText: 'The modal will be closed after two seconds',
             confirmLoading: true,
         });
         setTimeout(() => {
