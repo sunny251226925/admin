@@ -37,7 +37,6 @@ class App extends React.Component {
 
     //sidebar展开函数
     sidebarToggle = (collapsed) => {
-        console.log(collapsed)
         this.setState({
             collapsed: collapsed
         });
@@ -110,6 +109,7 @@ class App extends React.Component {
         }
     }
 
+    //用户信息下拉列表
     dropDownClick = (item) =>{
         const {history} = this.props;
         if(item.key === '3'){

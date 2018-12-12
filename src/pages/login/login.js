@@ -14,11 +14,11 @@ class Login extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            userName: '',
-            passWord: '',
-            capText: '',
-            qrCode: '',
-            CPSP_BACK_USER_TOKEN: ''
+            userName: '', //用户名
+            passWord: '', //喵喵
+            capText: '', //验证码
+            qrCode: '', //验证码图片地址
+            CPSP_BACK_USER_TOKEN: '' // 登录token
         }
 
         this.submit = this.submit.bind(this);
@@ -27,6 +27,7 @@ class Login extends React.Component {
         this.codeChange = this.codeChange.bind(this);
     }
 
+    //登录提交
     submit = () => {
         const params = {
             userName: this.state.userName,
@@ -43,7 +44,7 @@ class Login extends React.Component {
             const {history} = this.props;
             params.passWord = encrypt(params);
             axios.defaults.headers.common['CPSP_BACK_USER_TOKEN'] = this.state.CPSP_BACK_USER_TOKEN;
-            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDUxMDIxNTU4MTEsInBheWxvYWQiOiJcIjI2MzAxNDE4NTk3MjI3MzE1MlwiIn0.dMAnuopP7eXSWK_Sk6zhp6bG7Gmsi5AnsS2Qvcq1uUY';
+            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDUxOTg4NTcxNjgsInBheWxvYWQiOiJcIjk5ODg0OTA5NjE5MjEwMjQwMVwiIn0.DXirb-ApdR3HNX-r0XfyILN-FsYcehl5x_pFOAMake8';
             api.login(params).then( (res) => {
                 cookie.put('token',token)
                 history.push("/app/welcome");
@@ -51,18 +52,21 @@ class Login extends React.Component {
         }
     }
 
+    //用户名输入
     userChange =(event) => {
         this.setState({
             userName: event.target.value
         })
     }
 
+    //密码输入
     passChange =(event) => {
         this.setState({
             passWord: event.target.value
         })
     }
 
+    //验证码输入
     codeChange =(event) => {
         this.setState({
             capText: event.target.value

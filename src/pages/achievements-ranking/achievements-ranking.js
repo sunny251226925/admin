@@ -27,15 +27,14 @@ class achievementsRanking extends React.Component {
             planId: '', // 方案id
             period: cycle[0].period, //周期
             year: '2018', //年
-            interval: 8, //月
+            interval: 7, //月
             range: [], //指标范围list
             plan: [], //选择方案list
             value: null, //选择项目
             list: [], //搜索列表
             treeData: [], //选择项目树,
-            ModalText: 'Content of the modal',
-            visible: false,
-            confirmLoading: false,
+            visible: false, //模态窗口  状态
+            confirmLoading: false, // 模态窗口  确定按钮执行状态
             currentPage: 1, //分页 - 当前页
             pageSize: 10, //分页 - 条数
             totalRecord: 0, //分页 - 总条数
