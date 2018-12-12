@@ -1,0 +1,11 @@
+.welcome .ant-row > div{
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.welcome .ant-row > div:nth-child(1){
+    border-left: 1px solid #ddd;
+}
+.welcome .ant-row > div > div:nth-child(1) {
+    height: 24px;
+    overflow: hidden;
+}

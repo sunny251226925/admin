@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Select, Icon} from 'antd';
 import { Link } from 'react-router-dom';
 import { bar } from '../../utils/echarts';
+import './welcome.css';
 
 const Option = Select.Option;
 
@@ -30,7 +31,7 @@ class welcome extends React.Component {
         ];
 
         return (
-            <div>
+            <div className="welcome">
                 <Row className='col-title'>项目管理</Row>
                 <Row>
                     <Col span={8} className='padding'>

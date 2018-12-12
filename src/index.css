@@ -95,10 +95,4 @@ li{
     background-color: #f2f2f2;
     padding: 0 15px !important;
 }
-.ant-row > div{
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-}
-.ant-row > div:nth-child(1){
-    border-left: 1px solid #ddd;
-}
+
