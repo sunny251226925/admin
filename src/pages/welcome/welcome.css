@@ -1,16 +1,26 @@
-.welcome .ant-row > div{
+.ant-row-flex.border{
+    border: 1px solid #ddd;
+    height: 60px;
+    line-height: 60px;
+}
+.ant-row.border > div{
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
 }
-.welcome .ant-row > div:nth-child(1){
+.ant-row.border > div:nth-child(1){
     border-left: 1px solid #ddd;
 }
-.welcome .ant-row > div > div:nth-child(1) {
+.ant-row > div > div:nth-child(1) {
     height: 24px;
     overflow: hidden;
 }
-.welcome .ant-row > div .anticon{
+.ant-row > div .anticon{
     position: relative;
     top: 2px;
     margin-right: 3px;
+}
+.welcome-box{
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 15px;
 }

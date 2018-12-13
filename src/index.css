@@ -14,8 +14,29 @@ li{
 .link{
     color: #1890ff;
 }
+.color-1{
+    color: #333;
+}
+.color-2{
+    color: #fff;
+}
+.color-3{
+    color: #1890ff;
+}
 .padding{
     padding: 10px 15px !important;
+}
+.hidden{
+    overflow: hidden;
+}
+.text-center{
+    text-align: center;
+}
+.text-left{
+    text-align: left;
+}
+.text-right{
+    text-align: right;
 }
 .ant-layout{
     height: 100%;
