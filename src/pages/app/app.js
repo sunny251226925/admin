@@ -195,8 +195,8 @@ class App extends React.Component {
                                                     this.state.navIndex.children.map( (item) =>
                                                         item.children && item.children.length > 0 ?
                                                             <SubMenu key={item.code}
-                                                                     onTitleClick={this.sidebarChange.bind(this,item)}
-                                                                     title={<span><Icon type="team" />{item.name}</span>}>
+                                                                     onTitleMouseEnter={this.sidebarChange.bind(this,item)}
+                                                                     title={<span><Icon type="team" /><span>{item.name}</span></span>}>
                                                                 {
                                                                     item.children.map( (m) =>
                                                                         <Menu.Item key={m.code} onClick={this.sidebarChange.bind(this,m)}>{m.name}</Menu.Item>

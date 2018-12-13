@@ -9,3 +9,8 @@
     height: 24px;
     overflow: hidden;
 }
+.welcome .ant-row > div .anticon{
+    position: relative;
+    top: 2px;
+    margin-right: 3px;
+}

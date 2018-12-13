@@ -50,7 +50,8 @@ class welcome extends React.Component {
                     <Col span={8} className='padding'>
                         <div>
                             <span className="left">
-                                <Icon type="folder" theme="twoTone" style={{ fontSize: '20px'}}/>项目进度
+                                <Icon type="folder" theme="twoTone" style={{ fontSize: '20px'}}/>
+                                <span>项目进度</span>
                             </span>
                             <Select value={levelOptions[0].id}
                                     size="small"
@@ -68,7 +69,8 @@ class welcome extends React.Component {
                     <Col span={8}  className='padding'>
                         <div>
                             <span className="left">
-                                <Icon type="folder" theme="twoTone" style={{ fontSize: '20px'}}/>项目状态
+                                <Icon type="folder" theme="twoTone" style={{ fontSize: '20px'}}/>
+                                <span>项目状态</span>
                             </span>
                             <Link className="right" to="/app/achievements-ranking" >更多</Link>
                         </div>
@@ -77,7 +79,8 @@ class welcome extends React.Component {
                     <Col span={8} className='padding'>
                         <div>
                             <span className="left">
-                                <Icon type="folder" theme="twoTone" style={{ fontSize: '20px'}}/>工程类别
+                                <Icon type="folder" theme="twoTone" style={{ fontSize: '20px'}}/>
+                                <span>工程类别</span>
                             </span>
                             <Link className="right" to="/app/engineeringSpeed" >更多</Link>
                         </div>

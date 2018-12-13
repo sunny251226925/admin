@@ -152,7 +152,6 @@ export const strip = (id,title,Xdata,Ydata,legend) => {
         },
         series: [
             {
-                name: '直接访问',
                 type: 'bar',
                 stack: '总量',
                 barWidth: '10px',
@@ -224,7 +223,13 @@ export const pie = (id,title,title2,data,legend) => {
 }
 
 window.onresize = () => {
-    barChart.resize();
-    stripChart.resize();
-    pieChart.resize();
+    if(barChart){
+        barChart.resize();
+    }
+    if(stripChart){
+        stripChart.resize();
+    }
+    if(pieChart){
+        pieChart.resize();
+    }
 }
