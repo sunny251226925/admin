@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Select, Icon} from 'antd';
 import { Link } from 'react-router-dom';
-import { bar } from '../../utils/echarts';
+import { bar, strip, pie } from '../../utils/echarts';
 import './welcome.css';
 
 const Option = Select.Option;
@@ -15,11 +15,24 @@ class welcome extends React.Component {
     }
 
     componentDidMount(){
-        const Xdata = ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"];
-        const Ydata = [5, 20, 36, 10, 10, 20];
-        bar('bar','',Xdata,Ydata);
-        bar('bar2','',Xdata,Ydata);
-        bar('bar3','',Xdata,Ydata);
+        const bXdata = ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"];
+        const bYdata = [5, 20, 36, 10, 10, 20];
+        bar('bar','',bXdata,bYdata);;
+
+        const sYdata = ['周一','周二','周三','周四','周五','周六','周日'];
+        const sXdata = [320, 302, 301, 334, 390, 330, 320];
+        const slegend = ['直接访问', '邮件营销','联盟广告','视频广告','搜索引擎'];
+        strip('strip','',sXdata,sYdata,slegend);
+
+        const data = [
+            {value:335, name:'直接访问'},
+            {value:310, name:'邮件营销'},
+            {value:234, name:'联盟广告'},
+            {value:135, name:'视频广告'},
+            {value:1548, name:'搜索引擎'}
+        ]
+        const plegend = ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'];
+        pie('pie','人员出勤占比','测试数据',data,plegend);
     }
 
     render() {
@@ -59,7 +72,7 @@ class welcome extends React.Component {
                             </span>
                             <Link className="right" to="/app/achievements-ranking" >更多</Link>
                         </div>
-                        <div id="bar2" className="echarts" style={{ width: '100%', height: 300 }}></div>
+                        <div id="strip" className="echarts" style={{ width: '100%', height: 300 }}></div>
                     </Col>
                     <Col span={8} className='padding'>
                         <div>
@@ -68,7 +81,7 @@ class welcome extends React.Component {
                             </span>
                             <Link className="right" to="/app/engineeringSpeed" >更多</Link>
                         </div>
-                        <div id="bar3" className="echarts" style={{ width: '100%', height: 300 }}></div>
+                        <div id="pie" className="echarts" style={{ width: '100%', height: 300 }}></div>
                     </Col>
                 </Row>
             </div>

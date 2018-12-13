@@ -25,18 +25,16 @@ li{
     overflow: hidden;
 }
 .header.ant-layout-header{
-    padding: 0 180px 0 160px;
+    padding: 0 180px 0 200px;
 }
 .header .logo {
     position: absolute;
     left: 0;
     top: 0;
-    width: 120px;
-    height: 30px;
-    background: rgba(255,255,255,.2);
-    margin: 17px 10px 17px 30px;
+    width: 200px;
+    height: 100%;
+    text-align: center;
 }
-
 .header .userInfo{
     position: absolute;
     right: 0;

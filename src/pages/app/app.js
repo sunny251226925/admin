@@ -143,7 +143,10 @@ class App extends React.Component {
             <LocaleProvider locale={zh_CN}>
                 <Layout>
                     <Header className="header">
-                        <div className="logo"></div>
+                        <div className="logo">
+                            <Icon type="github" style={{ fontSize: '30px', color: '#fff',marginRight:'5px' }}/>
+                            <span style={{ fontSize: '26px', color: '#fff' }}>github</span>
+                        </div>
                         {
                             this.state.menuList.length > 0 ?
                             <Menu theme="dark"
@@ -174,36 +177,43 @@ class App extends React.Component {
                         </div>
                     </Header>
                     <Layout>
-                        <Sider collapsed={this.state.collapsed} onCollapse={this.sidebarToggle} collapsible>
-                            {
-                                this.state.navIndex.children && this.state.navIndex.children.length > 0 ?
-                                <Menu mode="inline"
-                                      selectedKeys={[this.state.sidebarSelected.code]}
-                                      openKeys={[this.state.sidebarOpen.code]}
-                                      defaultSelectedKeys={[this.state.sidebarSelected.code]}
-                                      defaultOpenKeys={[this.state.sidebarOpen.code]}
-                                      style={{ height: '100%', borderRight: 0 }}>
+                        {
+                            this.state.navIndex.children ?
+                                <Sider style={{display:this.state.navIndex.children.length > 0 ? 'block': 'none'}}
+                                       collapsed={this.state.collapsed}
+                                       onCollapse={this.sidebarToggle}
+                                       collapsible>
                                     {
-                                        this.state.navIndex.children.map( (item) =>
-                                            item.children && item.children.length > 0 ?
-                                            <SubMenu key={item.code}
-                                                     onTitleClick={this.sidebarChange.bind(this,item)}
-                                                     title={<span><Icon type="team" />{item.name}</span>}>
+                                        this.state.navIndex.children && this.state.navIndex.children.length > 0 ?
+                                            <Menu mode="inline"
+                                                  selectedKeys={[this.state.sidebarSelected.code]}
+                                                  openKeys={[this.state.sidebarOpen.code]}
+                                                  defaultSelectedKeys={[this.state.sidebarSelected.code]}
+                                                  defaultOpenKeys={[this.state.sidebarOpen.code]}
+                                                  style={{ height: '100%', borderRight: 0 }}>
                                                 {
-                                                    item.children.map( (m) =>
-                                                        <Menu.Item key={m.code} onClick={this.sidebarChange.bind(this,m)}>{m.name}</Menu.Item>
+                                                    this.state.navIndex.children.map( (item) =>
+                                                        item.children && item.children.length > 0 ?
+                                                            <SubMenu key={item.code}
+                                                                     onTitleClick={this.sidebarChange.bind(this,item)}
+                                                                     title={<span><Icon type="team" />{item.name}</span>}>
+                                                                {
+                                                                    item.children.map( (m) =>
+                                                                        <Menu.Item key={m.code} onClick={this.sidebarChange.bind(this,m)}>{m.name}</Menu.Item>
+                                                                    )
+                                                                }
+                                                            </SubMenu> :
+                                                            <Menu.Item key={item.code} onClick={this.sidebarChange.bind(this,item)}>
+                                                                <Icon type="pie-chart" />
+                                                                <span>{item.name}</span>
+                                                            </Menu.Item>
                                                     )
                                                 }
-                                            </SubMenu> :
-                                            <Menu.Item key={item.code} onClick={this.sidebarChange.bind(this,item)}>
-                                                <Icon type="pie-chart" />
-                                                <span>{item.name}</span>
-                                            </Menu.Item>
-                                        )
+                                            </Menu> : null
                                     }
-                                </Menu> : null
-                            }
-                        </Sider>
+                                </Sider> : null
+                        }
+
                         <Layout style={{ padding: '0 24px 0 24px' }}>
                             <Breadcrumb style={{ margin: '16px 0' }}>
                                 {
