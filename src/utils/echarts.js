@@ -7,9 +7,10 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 
 //条形柱状图
+let barChart = '';
 export const bar = (id,title,Xdata,Ydata) => {
-    const myChart = echarts.init(document.getElementById(id));
-    const option = {
+    barChart = echarts.init(document.getElementById(id))
+    var option = {
         color: ['#3398DB'],
         tooltip : {
             trigger: 'axis',
@@ -100,18 +101,16 @@ export const bar = (id,title,Xdata,Ydata) => {
             }
         ]
     };
-    myChart.setOption(option);
+    barChart.setOption(option);
     setTimeout(() => {
-        myChart.resize();
+        barChart.resize();
     },0)
-    window.onresize = () => {
-        myChart.resize();
-    }
 }
 
 //堆叠条形图
+let stripChart = '';
 export const strip = (id,title,Xdata,Ydata,legend) => {
-    const myChart = echarts.init(document.getElementById(id));
+    stripChart = echarts.init(document.getElementById(id));
     const option = {
         title: title,
         color: ['#3398DB'],
@@ -173,18 +172,17 @@ export const strip = (id,title,Xdata,Ydata,legend) => {
             }
         ]
     };
-    myChart.setOption(option);
+    stripChart.setOption(option);
     setTimeout(() => {
-        myChart.resize();
+        stripChart.resize();
     },0)
-    window.onresize = () => {
-        myChart.resize();
-    }
+
 }
 
 //饼图
+let pieChart = '';
 export const pie = (id,title,title2,data,legend) => {
-    const myChart = echarts.init(document.getElementById(id));
+    pieChart = echarts.init(document.getElementById(id));
     const option = {
         color: ['#CC99CC','#99CCFF','#0099CC','#99CCCC','#FF6666'],
         title : {
@@ -218,11 +216,15 @@ export const pie = (id,title,title2,data,legend) => {
             }
         ]
     };
-    myChart.setOption(option);
+    pieChart.setOption(option);
     setTimeout(() => {
-        myChart.resize();
+        pieChart.resize();
     },0)
-    window.onresize = () => {
-        myChart.resize();
-    }
+
+}
+
+window.onresize = () => {
+    barChart.resize();
+    stripChart.resize();
+    pieChart.resize();
 }
