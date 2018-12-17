@@ -131,10 +131,12 @@ class App extends React.Component {
 
         //获取用户详情
         api.getUserInfo().then( res => {
-            this.setState({
-                user: res.user,
-                person: res.person
-            })
+            if(res){
+                this.setState({
+                    user: res.user,
+                    person: res.person
+                })
+            }
         })
     }
 

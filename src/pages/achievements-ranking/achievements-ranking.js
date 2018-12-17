@@ -276,21 +276,26 @@ class achievementsRanking extends React.Component {
 
     componentDidMount(){
         api.searchRangeAndPlan().then( res => {
-            this.setState({
-                range: res.range,
-                plan: res.plan,
-                scope: Number(res.range[0].type),
-                planId: Number(res.plan[0].id)
-            })
+            if(res){
+                this.setState({
+                    range: res.range,
+                    plan: res.plan,
+                    scope: Number(res.range[0].type),
+                    planId: Number(res.plan[0].id)
+                })
+            }
         })
 
         api.getTreeProject().then( res => {
-            const tree = [res];
-            this.recursionThee(tree)
-            this.setState({
-                treeData: tree,
-                scopeId: tree[0].value
-            })
+            if(res){
+                const tree = [res];
+                this.recursionThee(tree)
+                this.setState({
+                    treeData: tree,
+                    scopeId: tree[0].value
+                })
+            }
+
         })
     }
 

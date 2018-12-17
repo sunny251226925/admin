@@ -1,10 +1,10 @@
 import React from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch} from 'react-router-dom';
 import Login from '../pages/login/login';
 import App from '../pages/app/app';
 
 const router = (
-    <Router>
+    <Router >
         <Switch>
             <Route exact path='/' component={Login}/>
             <Route path='/App'  component={App} />
