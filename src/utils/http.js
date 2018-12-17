@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { message } from 'antd';
-import {cookie} from './common';
+import { cookie } from './common';
 
 axios.defaults.baseURL = 'http://140.143.151.190:890/api'; //api 地址
 axios.defaults.withCredentials = true; //跨域允许传递 cookie
@@ -13,13 +13,16 @@ axios.interceptors.request.use( config => {
     return config;
 })
 
+const that = this;
+
 axios.interceptors.response.use( response => {
     if (response.status >= 200 && response.status <= 300) {
         if(response.data.code >= 200 && response.data.code <= 200){
             return response.data;
         } else if(response.data.code === 401) {
             message.error(response.data.data, function () {
-                // window.location.href = "http://localhost:3000"
+                //我想在这里跳转路由,除过window.location,有其他方案解决吗? this.props.history.push调用到
+                that.props.history.push('/login');
             });
             return response.data;
         } else {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch,Redirect } from 'react-router-dom';
 
 import achievementsRanking from '../pages/achievements-ranking/achievements-ranking';
 import welcome from '../pages/welcome/welcome';
@@ -10,6 +10,7 @@ class RouterSon extends React.Component{
            <Switch>
                <Route path='/app/welcome' strict component={welcome} />
                <Route path='/app/achievements-ranking' strict component={achievementsRanking} />
+               <Redirect to="/app/welcome"></Redirect>
            </Switch>
        );
     }

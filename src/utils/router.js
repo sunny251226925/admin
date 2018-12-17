@@ -7,7 +7,7 @@ const router = (
     <Router>
         <Switch>
             <Route exact path='/' component={Login}/>
-            <Route path='/App' component={App} />
+            <Route path='/App'  component={App} />
             <Route component={Login} />
         </Switch>
     </Router>
