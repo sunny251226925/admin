@@ -61,8 +61,8 @@ class welcome extends React.Component {
                     <Row className='col-title'>常用模块</Row>
                     <Row className='border' type="flex" justify="start">
                         {
-                            commonly.map( (item) =>
-                                <Col span={2} className='text-center'>
+                            commonly.map( (item, index) =>
+                                <Col span={2} className='text-center' key={index}>
                                     <p style={{height: '40px', lineHeight: '65px'}}>
                                         <MyIcon type={item.icon} className="MyIcon" style={{fontSize: 30 }}/>
                                     </p>
