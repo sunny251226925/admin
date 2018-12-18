@@ -4,7 +4,7 @@ import logoTitle from '../../images/logo-2.png';
 import api from '../../utils/api';
 import global from '../../utils/config';
 import { message } from 'antd';
-import { encrypt } from '../../utils/aes';
+import {encrypt} from '../../utils/aes';
 import axios from 'axios';
 import './login.css';
 import {cookie} from '../../utils/common';
@@ -43,10 +43,10 @@ class Login extends React.Component {
         } else {
             const {history} = this.props;
             params.passWord = encrypt(params);
+            params.passWord = 'U7/5esxkVNOkGDYQ7J5S+g==';
             axios.defaults.headers.common['CPSP_BACK_USER_TOKEN'] = this.state.CPSP_BACK_USER_TOKEN;
-            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDU2NDA1MjMyODgsInBheWxvYWQiOiJcIjEwNTUwMzA5ODMwODM5NTQxNzdcIiJ9.MN6W2bk9xq2M5usbf00U5dJdPNqwL8TIV6p8OAurf6I';
             api.login(params).then( (res) => {
-                cookie.put('token',token)
+                cookie.put('token', res.token);
                 history.push("/app/welcome");
             })
         }

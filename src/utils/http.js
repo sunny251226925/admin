@@ -17,9 +17,10 @@ axios.interceptors.response.use( response => {
         if(response.data.code >= 200 && response.data.code <= 200){
             return response.data;
         } else if(response.data.code === 401) {
-            message.error(response.data.data, function () {
-                //我想在这里跳转路由,除过window.location,有其他方案解决吗? this.props.history.push调用到
+            message.destroy();
+            message.error(response.data.data, 1, function () {
                 window.location.href = 'login';
+                cookie.clear();
             });
         } else {
             message.error(response.data.data);
