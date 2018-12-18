@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Select, Icon} from 'antd';
 import { Link } from 'react-router-dom';
 import { bar, strip, pie } from '../../utils/echarts';
+import MyIcon from '../../utils/myIcon';
 import './welcome.css';
 
 const Option = Select.Option;
@@ -47,23 +48,30 @@ class welcome extends React.Component {
             {id: 4, title: "延期"}
         ];
 
+        const commonly = [
+            {icon: 'icon-headlines', name: '考核结果', url:'/app/achievements-ranking'},
+            {icon: 'icon-barrage', name: '考核结果', url:'/app/achievements-ranking'},
+            {icon: 'icon-document', name: '考核结果', url:'/app/achievements-ranking'},
+            {icon: 'icon-dynamic', name: '考核结果', url:'/app/achievements-ranking'}
+        ]
+
         return (
             <div >
                 <div className="welcome-box">
                     <Row className='col-title'>常用模块</Row>
                     <Row className='border' type="flex" justify="start">
-                        <Col span={2} className='text-center'>
-                            <Link to="/app/achievements-ranking">考核结果</Link>
-                        </Col>
-                        <Col span={2} className='text-center'>
-                            <Link to="/app/achievements-ranking">考核结果</Link>
-                        </Col>
-                        <Col span={2} className='text-center'>
-                            <Link to="/app/achievements-ranking">考核结果</Link>
-                        </Col>
-                        <Col span={2} className='text-center'>
-                            <Link to="/app/achievements-ranking">考核结果</Link>
-                        </Col>
+                        {
+                            commonly.map( (item) =>
+                                <Col span={2} className='text-center'>
+                                    <p style={{height: '40px', lineHeight: '65px'}}>
+                                        <MyIcon type={item.icon} className="MyIcon" style={{fontSize: 30 }}/>
+                                    </p>
+                                    <p style={{height: '40px', lineHeight: '25px'}}>
+                                        <Link to={item.url}>{item.name}</Link>
+                                    </p>
+                                </Col>
+                            )
+                        }
                     </Row>
                 </div>
 
