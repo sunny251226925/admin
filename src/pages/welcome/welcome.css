@@ -22,6 +22,6 @@
     top: 2px;
     margin-right: 3px;
 }
-.welcome-box p{
+.welcome-box .ant-row-flex p{
     margin-bottom: 0;
 }
