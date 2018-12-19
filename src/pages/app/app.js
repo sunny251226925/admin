@@ -82,25 +82,29 @@ class App extends React.Component {
                     sidebarOpen: {}
                 })
             } else {
-                aitem.children.forEach( (bitem) => {
-                    if(bitem.href === url){
-                        this.setState({
-                            navIndex: aitem,
-                            sidebarSelected: bitem,
-                            sidebarOpen: {}
-                        })
-                    } else {
-                        bitem.children.forEach((citem) => {
-                            if(citem.href === url){
-                                this.setState({
-                                    navIndex: aitem,
-                                    sidebarSelected: citem,
-                                    sidebarOpen: bitem
+                if(aitem.children){
+                    aitem.children.forEach( (bitem) => {
+                        if(bitem.href === url){
+                            this.setState({
+                                navIndex: aitem,
+                                sidebarSelected: bitem,
+                                sidebarOpen: {}
+                            })
+                        } else {
+                            if(bitem.children){
+                                bitem.children.forEach((citem) => {
+                                    if(citem.href === url){
+                                        this.setState({
+                                            navIndex: aitem,
+                                            sidebarSelected: citem,
+                                            sidebarOpen: bitem
+                                        })
+                                    }
                                 })
                             }
-                        })
-                    }
-                })
+                        }
+                    })
+                }
             }
         })
     }
