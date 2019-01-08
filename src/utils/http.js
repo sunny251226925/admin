@@ -1,14 +1,22 @@
 import axios from 'axios'
 import { message } from 'antd';
 import { cookie } from './common';
-axios.defaults.baseURL = 'http://140.143.151.190:890/api'; //api 地址
+axios.defaults.baseURL = 'https://cloud.qhse.cn/api'; //api 地址
 axios.defaults.withCredentials = true; //跨域允许传递 cookie
 axios.defaults.timeout = 10000; // 请求超时
 
 axios.interceptors.request.use( config => {
-    config.headers["Content-Type"] = "application/json";
-    config.headers["token"] = cookie.get('token');
-    config.headers["source"] = "pc";
+    const whiteList = [
+        '/business/v1/login/imagecode',
+        '/business/v1/login/encrypt'
+    ];
+    if(whiteList.includes(config.url)){
+        delete config.headers["CPSP_BACK_USER_TOKEN"];
+    } else {
+        config.headers["Content-Type"] = "application/json";
+        config.headers["token"] = cookie.get('token');
+        config.headers["source"] = "pc";
+    }
     return config;
 })
 
@@ -18,10 +26,10 @@ axios.interceptors.response.use( response => {
             return response.data;
         } else if(response.data.code === 401) {
             message.destroy();
-            message.error(response.data.data, 1, function () {
-                window.location.href = 'login';
-                cookie.clear();
-            });
+            // message.error(response.data.data, 1, function () {
+            //     window.location.href = '/login';
+            //     cookie.clear();
+            // });
         } else {
             message.error(response.data.data);
             return response.data;

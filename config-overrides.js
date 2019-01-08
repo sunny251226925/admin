@@ -12,6 +12,9 @@ module.exports = function override(config, env) {
              ],
             config,
          );
+        config.devServer = {
+            historyApiFallback: true
+        };
         // config.devtool = false;
         // config.plugins.push(new uglify());
     return config;

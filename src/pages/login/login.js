@@ -44,6 +44,7 @@ class Login extends React.Component {
             const {history} = this.props;
             params.passWord = encrypt(params);
             params.passWord = 'U7/5esxkVNOkGDYQ7J5S+g==';
+            params.capText = params.capText.toLowerCase();
             axios.defaults.headers.common['CPSP_BACK_USER_TOKEN'] = this.state.CPSP_BACK_USER_TOKEN;
             api.login(params).then( (res) => {
                 cookie.put('token', res.token);
